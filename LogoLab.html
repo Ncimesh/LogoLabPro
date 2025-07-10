@@ -1,0 +1,528 @@
+import { useState } from 'react'
+import { Button } from "/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "/components/ui/card"
+import { Input } from "/components/ui/input"
+import { Label } from "/components/ui/label"
+import { Slider } from "/components/ui/slider"
+import { 
+  // Detailed icons from Lucide
+  Globe, Camera, Music, Book, Code, Mail, Lock,
+  Award, Bell, Calendar, Clock, Cloud, Coffee, Compass,
+  Diamond, Feather, Flag, Gift, Key, Layers, Leaf,
+  Moon, Palette, PieChart, Rocket, Settings, Shield,
+  ShoppingBag, Star, Sun, Target, Trophy, Umbrella,
+  Zap, Github, Twitter, Figma, Instagram, Linkedin
+} from "lucide-react"
+
+export default function LogoLabProDetailed() {
+  // State for logo customization
+  const [primaryColor, setPrimaryColor] = useState('#3b82f6')
+  const [secondaryColor, setSecondaryColor] = useState('#ffffff')
+  const [textColor, setTextColor] = useState('#ffffff')
+  const [selectedIcon, setSelectedIcon] = useState('Globe')
+  const [selectedShape, setSelectedShape] = useState('circle')
+  const [logoSize, setLogoSize] = useState(150)
+  const [logoText, setLogoText] = useState('LOGO')
+  const [textSize, setTextSize] = useState(24)
+  const [useGradient, setUseGradient] = useState(false)
+  const [gradientAngle, setGradientAngle] = useState(45)
+  const [gradientColors, setGradientColors] = useState(['#3b82f6', '#8b5cf6'])
+  const [iconSize, setIconSize] = useState(0.4) // Relative to logo size
+  const [iconFill, setIconFill] = useState(true)
+  const [iconStrokeWidth, setIconStrokeWidth] = useState(2)
+
+  // Detailed icons with categories
+  const iconCategories = [
+    {
+      name: "Nature",
+      icons: [
+        { name: 'Globe', component: Globe },
+        { name: 'Leaf', component: Leaf },
+        { name: 'Feather', component: Feather },
+        { name: 'Moon', component: Moon },
+        { name: 'Sun', component: Sun },
+        { name: 'Cloud', component: Cloud }
+      ]
+    },
+    {
+      name: "Objects",
+      icons: [
+        { name: 'Camera', component: Camera },
+        { name: 'Coffee', component: Coffee },
+        { name: 'Compass', component: Compass },
+        { name: 'Diamond', component: Diamond },
+        { name: 'Gift', component: Gift },
+        { name: 'Key', component: Key },
+        { name: 'ShoppingBag', component: ShoppingBag },
+        { name: 'Umbrella', component: Umbrella }
+      ]
+    },
+    {
+      name: "Symbols",
+      icons: [
+        { name: 'Award', component: Award },
+        { name: 'Flag', component: Flag },
+        { name: 'Shield', component: Shield },
+        { name: 'Star', component: Star },
+        { name: 'Target', component: Target },
+        { name: 'Trophy', component: Trophy },
+        { name: 'Zap', component: Zap }
+      ]
+    },
+    {
+      name: "Tech",
+      icons: [
+        { name: 'Code', component: Code },
+        { name: 'Layers', component: Layers },
+        { name: 'PieChart', component: PieChart },
+        { name: 'Rocket', component: Rocket },
+        { name: 'Settings', component: Settings },
+        { name: 'Github', component: Github },
+        { name: 'Figma', component: Figma }
+      ]
+    },
+    {
+      name: "Social",
+      icons: [
+        { name: 'Mail', component: Mail },
+        { name: 'Bell', component: Bell },
+        { name: 'Calendar', component: Calendar },
+        { name: 'Clock', component: Clock },
+        { name: 'Twitter', component: Twitter },
+        { name: 'Instagram', component: Instagram },
+        { name: 'Linkedin', component: Linkedin }
+      ]
+    }
+  ]
+
+  // Available shapes
+  const shapes = [
+    { name: 'Circle', class: 'rounded-full' },
+    { name: 'Square', class: 'rounded-md' },
+    { name: 'Rounded Square', class: 'rounded-xl' },
+    { name: 'Triangle', class: 'triangle' },
+    { name: 'Diamond', class: 'diamond' },
+    { name: 'Hexagon', class: 'hexagon' },
+    { name: 'Badge', class: 'badge' },
+    { name: 'Pill', class: 'pill' },
+    { name: 'Star', class: 'star' },
+    { name: 'Cloud', class: 'cloud' }
+  ]
+
+  // Gradient color handlers
+  const handleGradientColorChange = (index: number, color: string) => {
+    const newColors = [...gradientColors]
+    newColors[index] = color
+    setGradientColors(newColors)
+  }
+
+  const addGradientColor = () => {
+    if (gradientColors.length < 4) {
+      setGradientColors([...gradientColors, '#ffffff'])
+    }
+  }
+
+  const removeGradientColor = (index: number) => {
+    if (gradientColors.length > 2) {
+      const newColors = [...gradientColors]
+      newColors.splice(index, 1)
+      setGradientColors(newColors)
+    }
+  }
+
+  // Get the selected icon component
+  const SelectedIcon = iconCategories
+    .flatMap(category => category.icons)
+    .find(icon => icon.name === selectedIcon)?.component || Globe
+
+  // Generate background style
+  const getBackgroundStyle = () => {
+    if (useGradient) {
+      return {
+        background: `linear-gradient(${gradientAngle}deg, ${gradientColors.join(', ')})`
+      }
+    }
+    return {
+      backgroundColor: primaryColor
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 md:p-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-10">
+          <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 mb-2">
+            LogoLab Pro+
+          </h1>
+          <p className="text-lg text-muted-foreground">
+            Create professional logos with detailed icons and advanced customization
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Logo Preview */}
+          <div className="lg:col-span-1 flex flex-col items-center">
+            <Card className="w-full bg-white/90 backdrop-blur-sm border-gray-200 shadow-lg">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    Live Preview
+                  </span>
+                </CardTitle>
+                <CardDescription>Your custom logo will appear here</CardDescription>
+              </CardHeader>
+              <CardContent className="flex flex-col items-center p-6">
+                <div 
+                  className={`flex flex-col items-center justify-center ${shapes.find(s => s.name === selectedShape)?.class || 'rounded-full'} shadow-lg transition-all duration-300`}
+                  style={{
+                    width: `${logoSize}px`,
+                    height: `${logoSize}px`,
+                    ...getBackgroundStyle(),
+                    border: `4px solid ${secondaryColor}`
+                  }}
+                >
+                  <SelectedIcon 
+                    className="text-white transition-all" 
+                    size={logoSize * iconSize} 
+                    fill={iconFill ? secondaryColor : 'none'}
+                    stroke={secondaryColor}
+                    strokeWidth={iconStrokeWidth}
+                  />
+                  {logoText && (
+                    <span 
+                      className="font-bold mt-1"
+                      style={{
+                        color: textColor,
+                        fontSize: `${textSize}px`
+                      }}
+                    >
+                      {logoText}
+                    </span>
+                  )}
+                </div>
+                
+                <div className="mt-8 w-full space-y-4">
+                  <div>
+                    <Label className="block mb-2">Logo Size: {logoSize}px</Label>
+                    <Slider
+                      min={100}
+                      max={300}
+                      value={[logoSize]}
+                      onValueChange={([value]) => setLogoSize(value)}
+                      className="w-full"
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label className="block mb-2">Text Size: {textSize}px</Label>
+                    <Slider
+                      min={12}
+                      max={48}
+                      value={[textSize]}
+                      onValueChange={([value]) => setTextSize(value)}
+                      className="w-full"
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Customization Options */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Text Customization */}
+            <Card className="border-gray-200 shadow-sm">
+              <CardHeader>
+                <CardTitle className="text-lg">Text Customization</CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <Label>Logo Text</Label>
+                  <Input
+                    value={logoText}
+                    onChange={(e) => setLogoText(e.target.value)}
+                    placeholder="Enter your logo text"
+                    className="mt-2"
+                  />
+                </div>
+                <div>
+                  <Label>Text Color</Label>
+                  <div className="flex items-center gap-3 mt-2">
+                    <input
+                      type="color"
+                      value={textColor}
+                      onChange={(e) => setTextColor(e.target.value)}
+                      className="h-10 w-10 cursor-pointer rounded-md border border-gray-300"
+                    />
+                    <span className="text-sm text-muted-foreground">{textColor}</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Icon Customization */}
+            <Card className="border-gray-200 shadow-sm">
+              <CardHeader>
+                <CardTitle className="text-lg">Icon Settings</CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                  <Label>Icon Size: {(iconSize * 100).toFixed(0)}%</Label>
+                  <Slider
+                    min={20}
+                    max={80}
+                    value={[iconSize * 100]}
+                    onValueChange={([value]) => setIconSize(value / 100)}
+                    className="w-full mt-2"
+                  />
+                </div>
+                <div>
+                  <Label>Stroke Width: {iconStrokeWidth}px</Label>
+                  <Slider
+                    min={1}
+                    max={4}
+                    step={0.5}
+                    value={[iconStrokeWidth]}
+                    onValueChange={([value]) => setIconStrokeWidth(value)}
+                    className="w-full mt-2"
+                  />
+                </div>
+                <div className="flex items-center">
+                  <input
+                    id="icon-fill"
+                    type="checkbox"
+                    checked={iconFill}
+                    onChange={() => setIconFill(!iconFill)}
+                    className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  <Label htmlFor="icon-fill" className="ml-2">
+                    Fill Icon
+                  </Label>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Icon Selection */}
+            <Card className="border-gray-200 shadow-sm">
+              <CardHeader>
+                <CardTitle className="text-lg">Icon Selection</CardTitle>
+                <CardDescription>Choose from our premium detailed icon collection</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {iconCategories.map((category) => (
+                  <div key={category.name} className="mb-4">
+                    <h3 className="font-medium text-sm text-muted-foreground mb-2">
+                      {category.name}
+                    </h3>
+                    <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
+                      {category.icons.map((icon) => (
+                        <button
+                          key={icon.name}
+                          onClick={() => setSelectedIcon(icon.name)}
+                          className={`flex flex-col items-center p-2 rounded-lg transition-all ${
+                            selectedIcon === icon.name
+                              ? 'bg-blue-100 border border-blue-200 text-blue-600'
+                              : 'bg-gray-50 hover:bg-gray-100 border border-transparent'
+                          }`}
+                        >
+                          <icon.component 
+                            className="h-5 w-5" 
+                            strokeWidth={1.5}
+                          />
+                          <span className="text-xs mt-1 truncate w-full">
+                            {icon.name}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+
+            {/* Color Selection */}
+            <Card className="border-gray-200 shadow-sm">
+              <CardHeader>
+                <div className="flex justify-between items-center">
+                  <CardTitle className="text-lg">Color Settings</CardTitle>
+                  <div className="flex items-center space-x-2">
+                    <Label htmlFor="gradient-toggle">Gradient</Label>
+                    <input
+                      id="gradient-toggle"
+                      type="checkbox"
+                      checked={useGradient}
+                      onChange={() => setUseGradient(!useGradient)}
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {!useGradient ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <Label>Primary Color</Label>
+                      <div className="flex items-center gap-3 mt-2">
+                        <input
+                          type="color"
+                          value={primaryColor}
+                          onChange={(e) => setPrimaryColor(e.target.value)}
+                          className="h-10 w-10 cursor-pointer rounded-md border border-gray-300"
+                        />
+                        <span className="text-sm text-muted-foreground">{primaryColor}</span>
+                      </div>
+                    </div>
+                    <div>
+                      <Label>Secondary Color</Label>
+                      <div className="flex items-center gap-3 mt-2">
+                        <input
+                          type="color"
+                          value={secondaryColor}
+                          onChange={(e) => setSecondaryColor(e.target.value)}
+                          className="h-10 w-10 cursor-pointer rounded-md border border-gray-300"
+                        />
+                        <span className="text-sm text-muted-foreground">{secondaryColor}</span>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    <div>
+                      <Label>Gradient Angle</Label>
+                      <div className="flex items-center gap-3 mt-2">
+                        <Slider
+                          min={0}
+                          max={360}
+                          value={[gradientAngle]}
+                          onValueChange={([value]) => setGradientAngle(value)}
+                          className="w-full"
+                        />
+                        <span className="text-sm text-muted-foreground w-12 text-center">
+                          {gradientAngle}°
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <Label>Gradient Colors</Label>
+                      <div className="flex flex-wrap gap-3 mt-2">
+                        {gradientColors.map((color, index) => (
+                          <div key={index} className="flex items-center gap-2">
+                            <input
+                              type="color"
+                              value={color}
+                              onChange={(e) => handleGradientColorChange(index, e.target.value)}
+                              className="h-10 w-10 cursor-pointer rounded-md border border-gray-300"
+                            />
+                            <button
+                              onClick={() => removeGradientColor(index)}
+                              className="text-red-500 hover:text-red-700 text-sm"
+                              disabled={gradientColors.length <= 2}
+                            >
+                              ×
+                            </button>
+                          </div>
+                        ))}
+                        {gradientColors.length < 4 && (
+                          <button
+                            onClick={addGradientColor}
+                            className="h-10 w-10 flex items-center justify-center rounded-md border border-dashed border-gray-300 text-gray-400 hover:text-gray-600 hover:border-gray-400"
+                          >
+                            +
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Shape Selection */}
+            <Card className="border-gray-200 shadow-sm">
+              <CardHeader>
+                <CardTitle className="text-lg">Shape Selection</CardTitle>
+                <CardDescription>Select the base shape for your logo</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                  {shapes.map((shape) => (
+                    <button
+                      key={shape.name}
+                      onClick={() => setSelectedShape(shape.name)}
+                      className={`flex items-center justify-center h-20 transition-all ${
+                        selectedShape === shape.name
+                          ? 'ring-2 ring-blue-500 bg-blue-50'
+                          : 'bg-white hover:bg-gray-50'
+                      } ${shape.class} border border-gray-200 shadow-sm`}
+                    >
+                      <span className={`font-medium ${
+                        selectedShape === shape.name
+                          ? 'text-blue-600'
+                          : 'text-gray-700'
+                      }`}>
+                        {shape.name}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button size="lg" className="flex-1 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600">
+                Download PNG
+              </Button>
+              <Button variant="outline" size="lg" className="flex-1">
+                Save Design
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Custom CSS for shapes */}
+      <style jsx>{`
+        .triangle {
+          clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+        .diamond {
+          clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        }
+        .hexagon {
+          clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+        .badge {
+          clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 50% 100%, 0% 75%);
+        }
+        .pill {
+          clip-path: inset(0% 25% 0% 25% round 50%);
+        }
+        .star {
+          clip-path: polygon(
+            50% 0%,
+            61% 35%,
+            98% 35%,
+            68% 57%,
+            79% 91%,
+            50% 70%,
+            21% 91%,
+            32% 57%,
+            2% 35%,
+            39% 35%
+          );
+        }
+        .cloud {
+          clip-path: path('M 25,60 
+                         a 20,20 1 0,0 0,40 
+                         h 50 
+                         a 20,20 1 0,0 0,-40 
+                         a 10,10 1 0,0 -15,-10 
+                         a 15,15 1 0,0 -35,10 
+                         z');
+        }
+      `}</style>
+    </div>
+  )
+}
